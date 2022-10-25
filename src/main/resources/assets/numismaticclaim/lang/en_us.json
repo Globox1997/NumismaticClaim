@@ -1,0 +1,16 @@
+{
+    "numismaticclaim.screen": "Buy Claims",
+    "numismaticclaim.screen.buy_claim": "Buy Claim",
+    "numismaticclaim.screen.claim_cost": "Claim Cost",
+    "numismaticclaim.screen.claim_cost_2": "%d G, %d S, %d B",
+    "numismaticclaim.screen.balance": "Balance:",
+    "numismaticclaim.screen.balance_1": "%d Bronze",
+    "numismaticclaim.screen.balance_2": "%d Silver",
+    "numismaticclaim.screen.balance_3": "%d Gold",
+
+    "text.autoconfig.numismaticclaim.title": "Numismatic Claim Config",
+    "text.autoconfig.numismaticclaim.option.claim_price": "Claim Price",
+    "text.autoconfig.numismaticclaim.option.claim_price_modificator": "Claim Price Modificator",
+    "text.autoconfig.numismaticclaim.option.max_bonus_claims": "Max Bonus Claims",
+    "text.autoconfig.numismaticclaim.option.allow_all_villagers": "Allow All Villagers"
+}

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "id": "numismaticclaim",
+  "version": "${version}",
+  "name": "Numismatic Claim",
+  "description": "Open Parties and Claims compatibility with Numismatic Overhaul",
+  "authors": [
+    "Globox_Z"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/numismaticclaim",
+    "sources": "https://github.com/Globox1997/NumismaticClaim",
+    "issues": "https://github.com/Globox1997/NumismaticClaim/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/numismaticclaim/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.numismaticclaim.NumismaticClaimMain"
+    ],
+    "client": [
+      "net.numismaticclaim.NumismaticClaimClient"
+    ],
+    "modmenu": [
+      "net.numismaticclaim.config.ModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    "numismaticclaim.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.9",
+    "fabric-api": "*",
+    "minecraft": "~1.19",
+    "java": ">=17",
+    "numismatic-overhaul": "*",
+    "openpartiesandclaims": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
