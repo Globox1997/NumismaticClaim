@@ -45,10 +45,11 @@ public class NumismaticClaimServerPacket {
         ServerPlayNetworking.registerGlobalReceiver(CLOSE_SCREEN, (server, player, handler, buffer, sender) -> {
             int entityId = buffer.readInt();
             server.execute(() -> {
-                if (player != null && player.world.getEntityById(entityId) != null && player.world.getEntityById(entityId) instanceof VillagerEntity)
-                    ((VillagerEntity) player.world.getEntityById(entityId)).setCustomer(null);
+                if (player != null && player.world.getEntityById(entityId) != null && player.world.getEntityById(entityId) instanceof VillagerEntity villagerEntity)
+                    villagerEntity.setCustomer(null);
             });
         });
+
     }
 
     public static void writeS2COffererPacket(ServerPlayerEntity serverPlayerEntity, VillagerEntity villagerEntity, boolean isNumismaticClaimTrader) {

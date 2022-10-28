@@ -27,9 +27,15 @@ public abstract class MerchantScreenMixin extends HandledScreen<MerchantScreenHa
 
     private boolean isNumismaticClaimTrader = false;
     private final boolean isVillagerQuestsLoaded = NumismaticClaimMain.isVillagerQuestsLoaded;
+    private PlayerInventory playerInventory;
 
     public MerchantScreenMixin(MerchantScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
+    }
+
+    @Inject(method = "Lnet/minecraft/client/gui/screen/ingame/MerchantScreen;<init>(Lnet/minecraft/screen/MerchantScreenHandler;Lnet/minecraft/entity/player/PlayerInventory;Lnet/minecraft/text/Text;)V", at = @At(value = "TAIL"))
+    private void initialMixin(MerchantScreenHandler handler, PlayerInventory inventory, Text title, CallbackInfo info) {
+        this.playerInventory = inventory;
     }
 
     @Inject(method = "init", at = @At(value = "TAIL"))
@@ -55,7 +61,7 @@ public abstract class MerchantScreenMixin extends HandledScreen<MerchantScreenHa
     @Inject(method = "mouseClicked", at = @At(value = "HEAD"), cancellable = true)
     private void mouseClickedMixin(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> info) {
         if (this.isPointWithinBounds(276, isVillagerQuestsLoaded ? 20 : 0, 20, 20, (double) mouseX, (double) mouseY) && this.isNumismaticClaimTrader) {
-            this.client.setScreen(new NumismaticClaimScreen());
+            this.client.setScreen(new NumismaticClaimScreen(this.handler, this.playerInventory, this.title));
             info.cancel();
         }
     }

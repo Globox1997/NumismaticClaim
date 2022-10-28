@@ -6,9 +6,12 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.ingame.MerchantScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.screen.MerchantScreenHandler;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -19,16 +22,21 @@ import net.numismaticclaim.network.NumismaticClaimClientPacket;
 public class NumismaticClaimScreen extends Screen {
 
     private ButtonWidget buttonWidget;
+    private boolean switchScreen;
+    private final MerchantScreenHandler handler;
+    private final PlayerInventory inventory;
+    private final Text title;
 
-    public NumismaticClaimScreen() {
+    public NumismaticClaimScreen(MerchantScreenHandler handler, PlayerInventory inventory, Text title) {
         super(Text.translatable("numismaticclaim.screen"));
-        this.width = 168;
-        this.height = 166;
+        this.handler = handler;
+        this.inventory = inventory;
+        this.title = title;
     }
 
     @Override
     protected void init() {
-        this.buttonWidget = this.addDrawableChild(new ButtonWidget(this.width / 2 - 30, this.height / 2 + 45, 60, 20, Text.translatable("numismaticclaim.screen.buy_claim"), button -> {
+        this.buttonWidget = this.addDrawableChild(new ButtonWidget(this.width / 2 - 30, this.height / 2 + 48, 60, 20, Text.translatable("numismaticclaim.screen.buy_claim"), button -> {
             if (this.client != null && this.client.player != null) {
                 NumismaticClaimClientPacket.writeC2SBuyClaimPacket(this.client);
                 this.client.player.playSound(SoundEvents.ENTITY_VILLAGER_YES, SoundCategory.NEUTRAL, 1.0f,
@@ -45,6 +53,11 @@ public class NumismaticClaimScreen extends Screen {
         RenderSystem.setShaderTexture(0, NumismaticClaimClient.CLAIM_GUI);
 
         this.drawTexture(matrices, this.width / 2 - 84, this.height / 2 - 83, 0, 20, 168, 166);
+
+        if (this.isPointWithinBounds(168, 0, 20, 20, (double) mouseX, (double) mouseY))
+            this.drawTexture(matrices, this.width / 2 + 84, this.height / 2 - 83, 20, 0, 20, 20);
+        else
+            this.drawTexture(matrices, this.width / 2 + 84, this.height / 2 - 83, 0, 0, 20, 20);
 
         DrawableHelper.drawCenteredText(matrices, textRenderer, this.title, this.width / 2, this.height / 2 - 63, 0xFFFFFF);
 
@@ -104,23 +117,25 @@ public class NumismaticClaimScreen extends Screen {
 
     @Override
     public void close() {
-        if (this.client != null && this.client.player != null)
+        if (this.client != null && this.client.player != null && !this.switchScreen)
             NumismaticClaimClientPacket.writeC2SCloseScreenPacket(client, ((VillagerAccess) this.client.player).getCurrentOfferer().getId());
+
         super.close();
     }
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (this.isPointWithinBounds(168, 168, (double) mouseX, (double) mouseY))
-            this.close();
-
+        if (this.isPointWithinBounds(168, 0, 20, 20, (double) mouseX, (double) mouseY)) {
+            this.switchScreen = true;
+            this.client.setScreen(new MerchantScreen(this.handler, this.inventory, this.title));
+        }
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
-    private boolean isPointWithinBounds(int x, int width, double pointX, double pointY) {
-        int i = this.width;
-        int j = this.height;
-        return (pointX -= (double) i) >= (double) (x - 1) && pointX < (double) (x + width + 1) && (pointY -= (double) j) >= (double) (-20 - 1) && pointY < (double) (3 + 1);
+    private boolean isPointWithinBounds(int x, int y, int width, int height, double pointX, double pointY) {
+        int i = (this.width - 168) / 2;
+        int j = (this.height - 166) / 2;
+        return (pointX -= (double) i) >= (double) (x - 1) && pointX < (double) (x + width + 1) && (pointY -= (double) j) >= (double) (y - 1) && pointY < (double) (y + height + 1);
     }
 
 }
