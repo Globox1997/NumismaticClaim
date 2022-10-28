@@ -10,7 +10,7 @@ public class NumismaticClaimConfig implements ConfigData {
 
     @Comment("Price per claim")
     public long claim_price = 10000;
-    @Comment("Current extra claims * this * claim_price = total price")
+    @Comment("Current extra claims * this * claim_price + claim_price = total price")
     public float claim_price_modificator = 0.1f;
     @Comment("Max amount of bonus chunk claims")
     public int max_bonus_claims = 200;
