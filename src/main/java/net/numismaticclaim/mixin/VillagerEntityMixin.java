@@ -1,6 +1,8 @@
 package net.numismaticclaim.mixin;
 
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -16,6 +18,7 @@ import net.numismaticclaim.network.NumismaticClaimServerPacket;
 @Mixin(VillagerEntity.class)
 public abstract class VillagerEntityMixin implements VillagerAccess {
 
+    @Unique
     private boolean isNumismaticClaimTrader = false;
 
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
@@ -28,11 +31,13 @@ public abstract class VillagerEntityMixin implements VillagerAccess {
         this.isNumismaticClaimTrader = nbt.getBoolean("NumismaticClaimTrader");
     }
 
-    @Inject(method = "beginTradeWith", at = @At("HEAD"))
-    private void beginTradeWithMixin(PlayerEntity customer, CallbackInfo info) {
-        NumismaticClaimServerPacket.writeS2CClaimPricePacket((ServerPlayerEntity) customer);
-        NumismaticClaimServerPacket.writeS2COffererPacket((ServerPlayerEntity) customer, (VillagerEntity) (Object) this,
-                this.isNumismaticClaimTrader || NumismaticClaimMain.CONFIG.allow_all_villagers);
+    @Inject(method = "setCustomer", at = @At("HEAD"))
+    private void setCustomerMixin(@Nullable PlayerEntity customer, CallbackInfo info) {
+        if (customer != null && !customer.world.isClient) {
+            NumismaticClaimServerPacket.writeS2CClaimPricePacket((ServerPlayerEntity) customer);
+            NumismaticClaimServerPacket.writeS2COffererPacket((ServerPlayerEntity) customer, (VillagerEntity) (Object) this,
+                    this.isNumismaticClaimTrader || NumismaticClaimMain.CONFIG.allow_all_villagers);
+        }
     }
 
     @Override

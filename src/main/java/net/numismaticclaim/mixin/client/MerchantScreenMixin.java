@@ -3,6 +3,7 @@ package net.numismaticclaim.mixin.client;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -25,8 +26,11 @@ import net.numismaticclaim.screen.NumismaticClaimScreen;
 @Mixin(MerchantScreen.class)
 public abstract class MerchantScreenMixin extends HandledScreen<MerchantScreenHandler> {
 
+    @Unique
     private boolean isNumismaticClaimTrader = false;
+    @Unique
     private final boolean isVillagerQuestsLoaded = NumismaticClaimMain.isVillagerQuestsLoaded;
+    @Unique
     private PlayerInventory playerInventory;
 
     public MerchantScreenMixin(MerchantScreenHandler handler, PlayerInventory inventory, Text title) {
@@ -40,7 +44,8 @@ public abstract class MerchantScreenMixin extends HandledScreen<MerchantScreenHa
 
     @Inject(method = "init", at = @At(value = "TAIL"))
     protected void initMixin(CallbackInfo info) {
-        this.isNumismaticClaimTrader = ((VillagerAccess) ((VillagerAccess) this.client.player).getCurrentOfferer()).isNumismaticClaimTrader();
+        if (((VillagerAccess) this.client.player).getCurrentOfferer() != null)
+            this.isNumismaticClaimTrader = ((VillagerAccess) ((VillagerAccess) this.client.player).getCurrentOfferer()).isNumismaticClaimTrader();
     }
 
     @Inject(method = "drawBackground", at = @At(value = "TAIL"))
