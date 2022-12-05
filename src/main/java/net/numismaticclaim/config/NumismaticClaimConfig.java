@@ -1,6 +1,7 @@
 package net.numismaticclaim.config;
 
 import me.shedaniel.autoconfig.ConfigData;
+import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
 
@@ -16,4 +17,18 @@ public class NumismaticClaimConfig implements ConfigData {
     public int max_bonus_claims = 200;
     @Comment("If false only villagers with nbt NumismaticClaimTrader = true sell")
     public boolean allow_all_villagers = false;
+
+    @ConfigEntry.Category("overworld_settings")
+    @Comment("All overworld settings apply only to wilderness")
+    public boolean overworldPlayerBlockDestroy = true;
+    @ConfigEntry.Category("overworld_settings")
+    @Comment("Restrict block placement and specific tool rightclick")
+    public boolean overworldPlayerSpecificItemUse = true;
+    @ConfigEntry.Category("overworld_settings")
+    public boolean overworldMobGrief = true;
+    @ConfigEntry.Category("overworld_settings")
+    public boolean overworldRaids = true;
+    @ConfigEntry.Category("overworld_settings")
+    public boolean overworldCropTrample = true;
+
 }

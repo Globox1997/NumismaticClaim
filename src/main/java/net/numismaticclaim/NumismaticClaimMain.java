@@ -14,9 +14,9 @@ public class NumismaticClaimMain implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        NumismaticClaimServerPacket.init();
         AutoConfig.register(NumismaticClaimConfig.class, JanksonConfigSerializer::new);
         CONFIG = AutoConfig.getConfigHolder(NumismaticClaimConfig.class).getConfig();
+        NumismaticClaimServerPacket.init();
     }
 
 }
