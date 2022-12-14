@@ -6,3 +6,6 @@ NumismaticClaim is a mod built for the [Fabric Loader](https://fabricmc.net/). I
 
 ### License
 NumismaticClaim is licensed under MIT.
+
+#### Info
+Summon the trader with the command /summon numismaticclaim:villager ~ ~ ~
