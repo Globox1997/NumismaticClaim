@@ -20,5 +20,7 @@
     "text.autoconfig.numismaticclaim.option.overworldPlayerSpecificItemUse": "Player Specific Item Use",
     "text.autoconfig.numismaticclaim.option.overworldMobGrief": "Mob Grief",
     "text.autoconfig.numismaticclaim.option.overworldRaids": "Raids",
-    "text.autoconfig.numismaticclaim.option.overworldCropTrample": "Crop Trample"
+    "text.autoconfig.numismaticclaim.option.overworldCropTrample": "Crop Trample",
+    "text.autoconfig.numismaticclaim.option.overworldExplosion": "Explosion",
+    "text.autoconfig.numismaticclaim.option.overworldWitherSpawn": "Wither Spawn"
 }

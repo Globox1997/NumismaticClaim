@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
@@ -28,7 +29,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionTypes;
+import net.minecraft.world.explosion.Explosion;
 import net.numismaticclaim.NumismaticClaimMain;
 import xaero.pac.common.parties.party.IPartyPlayerInfo;
 import xaero.pac.common.parties.party.member.IPartyMember;
@@ -37,10 +38,8 @@ import xaero.pac.common.server.claims.IServerClaimsManager;
 import xaero.pac.common.server.claims.protection.ChunkProtection;
 import xaero.pac.common.server.parties.party.IServerParty;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.List;
 
-@SuppressWarnings("unused")
 @Mixin(ChunkProtection.class)
 public abstract class ChunkProtectionMixin<CM extends IServerClaimsManager<?, ?, ?>, M extends IPartyMember, I extends IPartyPlayerInfo, P extends IServerParty<M, I, ?>> {
 
@@ -99,6 +98,13 @@ public abstract class ChunkProtectionMixin<CM extends IServerClaimsManager<?, ?,
         if (!info.getReturnValue() && entity instanceof PlayerEntity && entity.world.getRegistryKey() == World.OVERWORLD && !NumismaticClaimMain.CONFIG.overworldMobGrief
                 && claimsManager.get(entity.world.getDimensionKey().getValue(), entity.getChunkPos()) == null)
             info.setReturnValue(true);
+    }
+
+    @Inject(method = "onExplosionDetonate", at = @At("HEAD"), cancellable = true)
+    private void onExplosionDetonateMixin(IServerData<CM, P> serverData, ServerWorld world, Explosion explosion, List<Entity> affectedEntities, List<BlockPos> affectedBlocks, CallbackInfo info) {
+        if (!affectedBlocks.isEmpty() && world.getRegistryKey() == World.OVERWORLD && !NumismaticClaimMain.CONFIG.overworldExplosion
+                && claimsManager.get(world.getDimensionKey().getValue(), new ChunkPos(affectedBlocks.get(0))) == null)// explosion.getCausingEntity() != null &&
+            affectedBlocks.clear();
     }
 
 }

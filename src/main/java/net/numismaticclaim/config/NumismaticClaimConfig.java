@@ -30,5 +30,9 @@ public class NumismaticClaimConfig implements ConfigData {
     public boolean overworldRaids = true;
     @ConfigEntry.Category("overworld_settings")
     public boolean overworldCropTrample = true;
+    @ConfigEntry.Category("overworld_settings")
+    public boolean overworldExplosion = true;
+    @ConfigEntry.Category("overworld_settings")
+    public boolean overworldWitherSpawn = true;
 
 }
