@@ -15,6 +15,7 @@
     "text.autoconfig.numismaticclaim.option.claim_price_modificator": "Claim Price Modificator",
     "text.autoconfig.numismaticclaim.option.max_bonus_claims": "Max Bonus Claims",
     "text.autoconfig.numismaticclaim.option.allow_all_villagers": "Allow All Villagers",
+    "text.autoconfig.numismaticclaim.option.chunk_claim_ticker": "Chunk Claim Ticker",
 
     "text.autoconfig.numismaticclaim.option.overworldPlayerBlockDestroy": "Player Block Destroy",
     "text.autoconfig.numismaticclaim.option.overworldPlayerSpecificItemUse": "Player Specific Item Use",
@@ -22,5 +23,7 @@
     "text.autoconfig.numismaticclaim.option.overworldRaids": "Raids",
     "text.autoconfig.numismaticclaim.option.overworldCropTrample": "Crop Trample",
     "text.autoconfig.numismaticclaim.option.overworldExplosion": "Explosion",
-    "text.autoconfig.numismaticclaim.option.overworldWitherSpawn": "Wither Spawn"
+    "text.autoconfig.numismaticclaim.option.overworldWitherSpawn": "Wither Spawn",
+
+    "text.numismaticclaim.unclaim": "Unclaim this chunk in %dh %dm %ds"
 }

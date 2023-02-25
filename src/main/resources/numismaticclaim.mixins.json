@@ -6,9 +6,11 @@
   "mixins": [
     "VillagerEntityMixin",
     "PlayerEntityMixin",
+    "ServerPlayerEntityMixin",
+    "WitherSkullBlockMixin",
     "ChunkProtectionMixin",
     "CommonEventsMixin",
-    "WitherSkullBlockMixin"
+    "PlayerClaimActionRequestHandlerMixin"
   ],
   "client": [
     "client.MerchantScreenMixin"
