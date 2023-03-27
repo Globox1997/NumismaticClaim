@@ -35,7 +35,8 @@
     "minecraft": "~1.19",
     "java": ">=17",
     "numismatic-overhaul": "*",
-    "openpartiesandclaims": "*"
+    "openpartiesandclaims": "*",
+    "libz": ">=1.0.0"
   },
   "suggests": {
     "another-mod": "*"

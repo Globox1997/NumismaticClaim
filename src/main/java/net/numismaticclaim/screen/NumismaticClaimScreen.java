@@ -4,6 +4,10 @@ import com.glisco.numismaticoverhaul.ModComponents;
 import com.glisco.numismaticoverhaul.currency.CurrencyComponent;
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import org.jetbrains.annotations.Nullable;
+
+import net.libz.api.Tab;
+import net.libz.util.DrawTabHelper;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.MerchantScreen;
@@ -19,18 +23,17 @@ import net.numismaticclaim.NumismaticClaimClient;
 import net.numismaticclaim.access.VillagerAccess;
 import net.numismaticclaim.network.NumismaticClaimClientPacket;
 
-public class NumismaticClaimScreen extends Screen {
+public class NumismaticClaimScreen extends Screen implements Tab {
 
     private ButtonWidget buttonWidget;
-    private boolean switchScreen;
     private final MerchantScreenHandler handler;
-    private final PlayerInventory inventory;
     private final Text title;
+    private int x;
+    private int y;
 
     public NumismaticClaimScreen(MerchantScreenHandler handler, PlayerInventory inventory, Text title) {
         super(Text.translatable("numismaticclaim.screen"));
         this.handler = handler;
-        this.inventory = inventory;
         this.title = title;
     }
 
@@ -43,21 +46,18 @@ public class NumismaticClaimScreen extends Screen {
                         (this.client.world.getRandom().nextFloat() - this.client.world.getRandom().nextFloat()) * 0.2f + 1.0f);
             }
         }));
-
+        this.x = (this.width - 168) / 2;
+        this.y = (this.height - 166) / 2;
     }
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        this.renderBackground(matrices);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, NumismaticClaimClient.CLAIM_GUI);
 
         this.drawTexture(matrices, this.width / 2 - 84, this.height / 2 - 83, 0, 20, 168, 166);
-
-        if (this.isPointWithinBounds(168, 0, 20, 20, (double) mouseX, (double) mouseY))
-            this.drawTexture(matrices, this.width / 2 + 84, this.height / 2 - 83, 20, 0, 20, 20);
-        else
-            this.drawTexture(matrices, this.width / 2 + 84, this.height / 2 - 83, 0, 0, 20, 20);
 
         DrawableHelper.drawCenteredText(matrices, textRenderer, this.title, this.width / 2, this.height / 2 - 63, 0xFFFFFF);
 
@@ -99,13 +99,23 @@ public class NumismaticClaimScreen extends Screen {
                 buttonWidget.active = false;
 
         }
+        DrawTabHelper.drawTab(client, matrices, this, x, y, mouseX, mouseY);
         super.render(matrices, mouseX, mouseY, delta);
     }
 
     @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        DrawTabHelper.onTabButtonClick(client, this, this.x, this.y, mouseX, mouseY, false);
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (this.client != null && this.client.options.inventoryKey.matchesKey(keyCode, scanCode))
-            this.close();
+        if (this.client != null && this.client.options.inventoryKey.matchesKey(keyCode, scanCode)) {
+            NumismaticClaimClientPacket.writeC2SCloseScreenPacket(client, ((VillagerAccess) this.client.player).getCurrentOfferer().getId());
+            return true;
+
+        }
 
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
@@ -117,25 +127,19 @@ public class NumismaticClaimScreen extends Screen {
 
     @Override
     public void close() {
-        if (this.client != null && this.client.player != null && !this.switchScreen)
+        if (this.client != null && this.client.player != null) {
             NumismaticClaimClientPacket.writeC2SCloseScreenPacket(client, ((VillagerAccess) this.client.player).getCurrentOfferer().getId());
-
+        }
         super.close();
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (this.isPointWithinBounds(168, 0, 20, 20, (double) mouseX, (double) mouseY)) {
-            this.switchScreen = true;
-            this.client.setScreen(new MerchantScreen(this.handler, this.inventory, this.title));
-        }
-        return super.mouseClicked(mouseX, mouseY, button);
+    public @Nullable Class<?> getParentScreenClass() {
+        return MerchantScreen.class;
     }
 
-    private boolean isPointWithinBounds(int x, int y, int width, int height, double pointX, double pointY) {
-        int i = (this.width - 168) / 2;
-        int j = (this.height - 166) / 2;
-        return (pointX -= (double) i) >= (double) (x - 1) && pointX < (double) (x + width + 1) && (pointY -= (double) j) >= (double) (y - 1) && pointY < (double) (y + height + 1);
+    public MerchantScreenHandler getScreenHandler() {
+        return this.handler;
     }
 
 }

@@ -45,8 +45,9 @@ public class NumismaticClaimServerPacket {
         ServerPlayNetworking.registerGlobalReceiver(CLOSE_SCREEN, (server, player, handler, buffer, sender) -> {
             int entityId = buffer.readInt();
             server.execute(() -> {
-                if (player != null && player.world.getEntityById(entityId) != null && player.world.getEntityById(entityId) instanceof VillagerEntity villagerEntity)
+                if (player != null && player.world.getEntityById(entityId) != null && player.world.getEntityById(entityId) instanceof VillagerEntity villagerEntity) {
                     villagerEntity.setCustomer(null);
+                }
             });
         });
 

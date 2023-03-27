@@ -41,4 +41,5 @@ public class NumismaticClaimClientPacket {
         CustomPayloadC2SPacket packet = new CustomPayloadC2SPacket(NumismaticClaimServerPacket.CLOSE_SCREEN, buf);
         client.getNetworkHandler().sendPacket(packet);
     }
+
 }

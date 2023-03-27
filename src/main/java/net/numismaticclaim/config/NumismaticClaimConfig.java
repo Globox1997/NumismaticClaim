@@ -17,8 +17,8 @@ public class NumismaticClaimConfig implements ConfigData {
     public int max_bonus_claims = 200;
     @Comment("If false only villagers with nbt NumismaticClaimTrader = true sell")
     public boolean allow_all_villagers = false;
-    @Comment("Unclaim time in seconds")
-    public int chunk_claim_ticker = 7200;
+    @Comment("Unclaim timer in seconds")
+    public int chunk_claim_ticker = 0;
 
     @ConfigEntry.Category("overworld_settings")
     @Comment("All overworld settings apply only to wilderness")

@@ -16,6 +16,8 @@ repositories {
 	maven { url "https://www.cursemaven.com" }
 	maven { url "https://ladysnake.jfrog.io/artifactory/mods" }
 	maven { url 'https://maven.wispforest.io' }
+	maven { url 'https://jitpack.io' }
+	maven { url "https://server.bbkr.space/artifactory/libs-release" }
 }
 
 dependencies {
@@ -43,6 +45,10 @@ dependencies {
 	modImplementation "io.wispforest:owo-lib:0.8.5+1.19"
 	// OPAC
 	modCompileOnly ('curse.maven:open-parties-and-claims-636608:4104537') {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
+	// LibZ
+    modImplementation ('com.github.Globox1997:LibZ:c19da208d5') {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 }
