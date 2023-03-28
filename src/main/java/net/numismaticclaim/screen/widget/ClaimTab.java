@@ -19,7 +19,7 @@ public class ClaimTab extends InventoryTab {
 
     @Override
     public boolean shouldShow(MinecraftClient client) {
-        return ((VillagerAccess) ((VillagerAccess) client.player).getCurrentOfferer()).isNumismaticClaimTrader();
+        return ((VillagerAccess) client.player).getCurrentOfferer() != null && ((VillagerAccess) ((VillagerAccess) client.player).getCurrentOfferer()).isNumismaticClaimTrader();
     }
 
     @Override
