@@ -44,13 +44,13 @@ public class NumismaticClaimMain implements ModInitializer {
     private static int executeSummon(ServerCommandSource source, Vec3d pos) {
         World world = source.getWorld();
         VillagerEntity villagerEntity = new VillagerEntity(EntityType.VILLAGER, world);
-        villagerEntity.refreshPositionAndAngles(new BlockPos(pos), source.getPlayer().getYaw(), 0f);
+        villagerEntity.refreshPositionAndAngles(BlockPos.ofFloored(pos), source.getPlayer().getYaw(), 0f);
         NbtCompound nbtCompound = new NbtCompound();
         nbtCompound.putBoolean("NumismaticClaimTrader", true);
-        villagerEntity.initialize(source.getWorld(), world.getLocalDifficulty(new BlockPos(pos)), SpawnReason.COMMAND, null, nbtCompound);
+        villagerEntity.initialize(source.getWorld(), world.getLocalDifficulty(BlockPos.ofFloored(pos)), SpawnReason.COMMAND, null, nbtCompound);
         ((VillagerAccess) villagerEntity).setNumismaticClaimTrader(true);
         world.spawnEntity(villagerEntity);
-        source.sendFeedback(Text.translatable("commands.summon.success", villagerEntity.getDisplayName()), true);
+        source.sendFeedback(() -> Text.translatable("commands.summon.success", villagerEntity.getDisplayName()), true);
         return 1;
     }
 

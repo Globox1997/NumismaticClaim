@@ -73,8 +73,8 @@ public abstract class ChunkProtectionMixin<CM extends IServerClaimsManager<?, ?,
 
     @Inject(method = "onCropTrample", at = @At("TAIL"), cancellable = true)
     private void onCropTrampleMixin(IServerData<CM, P> serverData, Entity entity, BlockPos pos, CallbackInfoReturnable<Boolean> info) {
-        if (!info.getReturnValue() && entity instanceof PlayerEntity playerEntity && entity.world.getRegistryKey() == World.OVERWORLD && !NumismaticClaimMain.CONFIG.overworldCropTrample
-                && claimsManager.get(entity.world.getDimensionKey().getValue(), new ChunkPos(pos)) == null && !playerEntity.isCreative())
+        if (!info.getReturnValue() && entity instanceof PlayerEntity playerEntity && entity.getWorld().getRegistryKey() == World.OVERWORLD && !NumismaticClaimMain.CONFIG.overworldCropTrample
+                && claimsManager.get(entity.getWorld().getDimensionKey().getValue(), new ChunkPos(pos)) == null && !playerEntity.isCreative())
             info.setReturnValue(true);
     }
 
@@ -95,8 +95,8 @@ public abstract class ChunkProtectionMixin<CM extends IServerClaimsManager<?, ?,
 
     @Inject(method = "Lxaero/pac/common/server/claims/protection/ChunkProtection;onMobGrief(Lxaero/pac/common/server/IServerData;Lnet/minecraft/entity/Entity;ZZZ)Z", at = @At("RETURN"), cancellable = true)
     private void onMobGriefMixin(IServerData<CM, P> serverData, Entity entity, boolean blocks, boolean entities, boolean items, CallbackInfoReturnable<Boolean> info) {
-        if (!info.getReturnValue() && entity instanceof PlayerEntity && entity.world.getRegistryKey() == World.OVERWORLD && !NumismaticClaimMain.CONFIG.overworldMobGrief
-                && claimsManager.get(entity.world.getDimensionKey().getValue(), entity.getChunkPos()) == null)
+        if (!info.getReturnValue() && entity instanceof PlayerEntity && entity.getWorld().getRegistryKey() == World.OVERWORLD && !NumismaticClaimMain.CONFIG.overworldMobGrief
+                && claimsManager.get(entity.getWorld().getDimensionKey().getValue(), entity.getChunkPos()) == null)
             info.setReturnValue(true);
     }
 

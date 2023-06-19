@@ -33,7 +33,7 @@ public abstract class VillagerEntityMixin implements VillagerAccess {
 
     @Inject(method = "setCustomer", at = @At("HEAD"))
     private void setCustomerMixin(@Nullable PlayerEntity customer, CallbackInfo info) {
-        if (customer != null && !customer.world.isClient) {
+        if (customer != null && !customer.getWorld().isClient()) {
             NumismaticClaimServerPacket.writeS2CClaimPricePacket((ServerPlayerEntity) customer);
             NumismaticClaimServerPacket.writeS2COffererPacket((ServerPlayerEntity) customer, (VillagerEntity) (Object) this,
                     this.isNumismaticClaimTrader || NumismaticClaimMain.CONFIG.allow_all_villagers);

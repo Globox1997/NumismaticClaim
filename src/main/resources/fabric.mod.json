@@ -30,15 +30,22 @@
     "numismaticclaim.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.9",
-    "fabric-api": "*",
-    "minecraft": "~1.19",
     "java": ">=17",
+    "minecraft": "${minecraft_version}",
+    "fabric-api": ">=${fabric_version}",
+    "fabricloader": ">=${loader_version}",
+    "cloth-config2": ">=${cloth_config_version}",
     "numismatic-overhaul": "*",
     "openpartiesandclaims": "*",
     "libz": ">=1.0.0"
   },
   "suggests": {
     "another-mod": "*"
+  },
+  "custom": {
+    "mc-publish": {
+      "modrinth": "Cf92nkgs",
+      "curseforge": 693762
+    }
   }
 }
