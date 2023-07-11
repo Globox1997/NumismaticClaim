@@ -85,7 +85,7 @@ public abstract class ChunkProtectionMixin<CM extends IServerClaimsManager<?, ?,
     }
 
     @Inject(method = "onBucketUse", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILSOFT, cancellable = true)
-    private void onBucketUseMixin(IServerData<CM, P> serverData, Entity entity, World world, HitResult hitResult, ItemStack itemStack, CallbackInfoReturnable<Boolean> info, BlockPos pos) {
+    private void onBucketUseMixin(IServerData<CM, ?> serverData, Entity entity, ServerWorld world, HitResult hitResult, ItemStack itemStack, CallbackInfoReturnable<Boolean> info, BlockPos pos, Direction direction) {
         if (!info.getReturnValue() && entity instanceof PlayerEntity playerEntity && world.getRegistryKey() == World.OVERWORLD && !NumismaticClaimMain.CONFIG.overworldPlayerSpecificItemUse
                 && claimsManager.get(world.getDimensionKey().getValue(), new ChunkPos(pos)) == null && !playerEntity.isCreative()) {
             playerEntity.sendMessage(serverData.getAdaptiveLocalizer().getFor((ServerPlayerEntity) playerEntity, ITEM_DISABLED_MAIN));
