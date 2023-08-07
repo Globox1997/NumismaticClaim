@@ -1,6 +1,6 @@
 ### Added:
 - 
 ### Fixed:
-- 
+- Fixed opac crash
 ### Changed:
-- Updated to mc 1.20
+- 
