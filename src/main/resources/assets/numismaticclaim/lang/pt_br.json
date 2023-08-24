@@ -1,0 +1,16 @@
+{
+    "numismaticclaim.screen": "Comprar reivindicações",
+    "numismaticclaim.screen.buy_claim": "Comprar reivindicação",
+    "numismaticclaim.screen.claim_cost": "Custo da Reivindicação",
+    "numismaticclaim.screen.claim_cost_2": "%d O, %d P, %d B",
+    "numismaticclaim.screen.balance": "Valor:",
+    "numismaticclaim.screen.balance_1": "%d Bronze",
+    "numismaticclaim.screen.balance_2": "%d Prata",
+    "numismaticclaim.screen.balance_3": "%d Ouro",
+
+    "text.autoconfig.numismaticclaim.title": "Numismatic Claim Config",
+    "text.autoconfig.numismaticclaim.option.claim_price": "Preço da Reivindicar",
+    "text.autoconfig.numismaticclaim.option.claim_price_modificator": "Reivindicar modificador de preço",
+    "text.autoconfig.numismaticclaim.option.max_bonus_claims": "Reivindicações de bônus máximo",
+    "text.autoconfig.numismaticclaim.option.allow_all_villagers": "Permitir todos os aldeões"
+}
