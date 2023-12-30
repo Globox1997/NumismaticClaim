@@ -8,9 +8,9 @@
     "PlayerEntityMixin",
     "ServerPlayerEntityMixin",
     "WitherSkullBlockMixin",
-    "ChunkProtectionMixin",
-    "CommonEventsMixin",
-    "PlayerClaimActionRequestHandlerMixin"
+    "opac.ChunkProtectionMixin",
+    "opac.CommonEventsMixin",
+    "opac.PlayerClaimActionRequestHandlerMixin"
   ],
   "client": [
     "client.MerchantScreenMixin"

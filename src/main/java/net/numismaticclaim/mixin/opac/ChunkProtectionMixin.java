@@ -1,4 +1,4 @@
-package net.numismaticclaim.mixin;
+package net.numismaticclaim.mixin.opac;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
@@ -58,9 +59,9 @@ public abstract class ChunkProtectionMixin<CM extends IServerClaimsManager<?, ?,
     @Mutable
     private Text ITEM_DISABLED_MAIN;
 
-    @Inject(method = "Lxaero/pac/common/server/claims/protection/ChunkProtection;onBlockInteraction(Lxaero/pac/common/server/IServerData;Lnet/minecraft/entity/Entity;Lnet/minecraft/util/Hand;Lnet/minecraft/item/ItemStack;Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;ZZ)Z", at = @At(value = "RETURN"), cancellable = true)
-    private void onBlockInteractionMixin(IServerData<CM, P> serverData, Entity entity, Hand hand, ItemStack heldItem, ServerWorld world, BlockPos pos, Direction direction, boolean breaking,
-            boolean messages, CallbackInfoReturnable<Boolean> info) {
+    @Inject(method = "onBlockInteraction(Lxaero/pac/common/server/IServerData;Lnet/minecraft/block/BlockState;Lnet/minecraft/entity/Entity;Lnet/minecraft/util/Hand;Lnet/minecraft/item/ItemStack;Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;ZZ)Z", at = @At(value = "RETURN"), cancellable = true)
+    private void onBlockInteractionMixin(IServerData<CM, P> serverData, BlockState blockState, Entity entity, Hand hand, ItemStack heldItem, ServerWorld world, BlockPos pos, Direction direction,
+            boolean breaking, boolean messages, CallbackInfoReturnable<Boolean> info) {
         if (!info.getReturnValue() && !breaking && entity instanceof PlayerEntity playerEntity && world.getRegistryKey() == World.OVERWORLD
                 && !NumismaticClaimMain.CONFIG.overworldPlayerSpecificItemUse && claimsManager.get(world.getDimensionKey().getValue(), new ChunkPos(pos)) == null && !playerEntity.isCreative()) {
             Item item = playerEntity.getStackInHand(hand).getItem();

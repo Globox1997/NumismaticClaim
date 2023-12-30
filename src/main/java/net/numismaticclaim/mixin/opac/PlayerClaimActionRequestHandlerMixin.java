@@ -1,4 +1,4 @@
-package net.numismaticclaim.mixin;
+package net.numismaticclaim.mixin.opac;
 
 import java.util.List;
 import java.util.UUID;
