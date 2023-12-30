@@ -34,18 +34,18 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 	// Numismatic
-	modImplementation ('maven.modrinth:numismatic-overhaul:0.2.9+1.20') {
+	modImplementation ('maven.modrinth:numismatic-overhaul:0.2.10+1.20') {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 	modImplementation ("dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.2.2")
     modImplementation ("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:5.2.2")
 	modImplementation "io.wispforest:owo-lib:0.11.1-pre.6+1.20"
 	// OPAC
-	modImplementation ('maven.modrinth:open-parties-and-claims:fabric-1.20.1-0.19.3') {
+	modImplementation ('maven.modrinth:open-parties-and-claims:fabric-1.20.1-0.20.4') {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
     // LibZ
-    modImplementation ('maven.modrinth:libz:1.0.1+1.20.1') {
+    modImplementation ('maven.modrinth:libz:1.0.3+1.20.1') {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 }
