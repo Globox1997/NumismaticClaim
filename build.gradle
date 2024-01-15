@@ -44,7 +44,7 @@ dependencies {
     modImplementation ("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:5.0.0-beta.1")
 	modImplementation "io.wispforest:owo-lib:0.8.5+1.19"
 	// OPAC
-	modCompileOnly ('curse.maven:open-parties-and-claims-636608:4627627') {
+	modCompileOnly ('curse.maven:open-parties-and-claims-636608:4982649') {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 	// LibZ
