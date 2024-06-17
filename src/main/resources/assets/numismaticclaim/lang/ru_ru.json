@@ -1,0 +1,29 @@
+{
+    "numismaticclaim.screen": "Купить требование",
+    "numismaticclaim.screen.buy_claim": "Купить требование",
+    "numismaticclaim.screen.claim_cost": "Стоимость требования",
+    "numismaticclaim.screen.claim_cost_2": "%d З, %d С, %d Б",
+    "numismaticclaim.screen.balance": "Баланс:",
+    "numismaticclaim.screen.balance_1": "%d Бронза",
+    "numismaticclaim.screen.balance_2": "%d Серебро",
+    "numismaticclaim.screen.balance_3": "%d Золото",
+
+    "text.autoconfig.numismaticclaim.title": "Numismatic Claim настройка",
+    "text.autoconfig.numismaticclaim.category.default": "NumismaticClaim настройки",
+    "text.autoconfig.numismaticclaim.category.overworld_settings": "Настройка верхнего мира",
+    "text.autoconfig.numismaticclaim.option.claim_price": "Цена требования",
+    "text.autoconfig.numismaticclaim.option.claim_price_modificator": "Модификатор цены требования",
+    "text.autoconfig.numismaticclaim.option.max_bonus_claims": "Максимальный бонус требования",
+    "text.autoconfig.numismaticclaim.option.allow_all_villagers": "Разрешить всем жителям деревни",
+    "text.autoconfig.numismaticclaim.option.chunk_claim_ticker": "Тикер требование на чанк",
+
+    "text.autoconfig.numismaticclaim.option.overworldPlayerBlockDestroy": "Уничтожение блока игрока",
+    "text.autoconfig.numismaticclaim.option.overworldPlayerSpecificItemUse": "Использование предметов, специфичных для игрока",
+    "text.autoconfig.numismaticclaim.option.overworldMobGrief": "Гриф мобов",
+    "text.autoconfig.numismaticclaim.option.overworldRaids": "Рейды",
+    "text.autoconfig.numismaticclaim.option.overworldCropTrample": "Вытаптывание урожая",
+    "text.autoconfig.numismaticclaim.option.overworldExplosion": "Взрыв",
+    "text.autoconfig.numismaticclaim.option.overworldWitherSpawn": "Спавн Визера",
+
+    "text.numismaticclaim.unclaim": "Отменить требование чанка в %dh %dm %ds"
+}
