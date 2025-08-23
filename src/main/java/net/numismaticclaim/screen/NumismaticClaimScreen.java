@@ -3,9 +3,6 @@ package net.numismaticclaim.screen;
 import com.glisco.numismaticoverhaul.ModComponents;
 import com.glisco.numismaticoverhaul.currency.CurrencyComponent;
 import com.mojang.blaze3d.systems.RenderSystem;
-
-import org.jetbrains.annotations.Nullable;
-
 import net.libz.api.Tab;
 import net.libz.util.DrawTabHelper;
 import net.minecraft.client.gui.DrawContext;
@@ -14,12 +11,12 @@ import net.minecraft.client.gui.screen.ingame.MerchantScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.MerchantScreenHandler;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.numismaticclaim.NumismaticClaimClient;
 import net.numismaticclaim.access.VillagerAccess;
 import net.numismaticclaim.network.NumismaticClaimClientPacket;
+import org.jetbrains.annotations.Nullable;
 
 public class NumismaticClaimScreen extends Screen implements Tab {
 
@@ -40,8 +37,8 @@ public class NumismaticClaimScreen extends Screen implements Tab {
         this.buttonWidget = this.addDrawableChild(ButtonWidget.builder(Text.translatable("numismaticclaim.screen.buy_claim"), button -> {
             if (this.client != null && this.client.player != null) {
                 NumismaticClaimClientPacket.writeC2SBuyClaimPacket(this.client);
-                this.client.player.playSound(SoundEvents.ENTITY_VILLAGER_YES, SoundCategory.NEUTRAL, 1.0f,
-                        (this.client.world.getRandom().nextFloat() - this.client.world.getRandom().nextFloat()) * 0.2f + 1.0f);
+
+                this.client.player.playSound(SoundEvents.ENTITY_VILLAGER_YES, 1.0f, (this.client.world.getRandom().nextFloat() - this.client.world.getRandom().nextFloat()) * 0.2f + 1.0f);
             }
         }).dimensions(this.width / 2 - 30, this.height / 2 + 48, 60, 20).build());
         this.x = (this.width - 168) / 2;
@@ -50,7 +47,7 @@ public class NumismaticClaimScreen extends Screen implements Tab {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        this.renderBackground(context);
+        super.render(context, mouseX, mouseY, delta);
 
         context.drawTexture(NumismaticClaimClient.CLAIM_GUI, this.width / 2 - 84, this.height / 2 - 83, 0, 20, 168, 166);
         context.drawCenteredTextWithShadow(textRenderer, this.title, this.width / 2, this.height / 2 - 63, 0xFFFFFF);
@@ -93,7 +90,12 @@ public class NumismaticClaimScreen extends Screen implements Tab {
 
         }
         DrawTabHelper.drawTab(client, context, this, x, y, mouseX, mouseY);
-        super.render(context, mouseX, mouseY, delta);
+    }
+
+    // Todo: TEST
+    @Override
+    public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
+        renderInGameBackground(context);
     }
 
     @Override

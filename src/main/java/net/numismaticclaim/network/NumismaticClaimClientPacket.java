@@ -1,45 +1,43 @@
 package net.numismaticclaim.network;
 
-import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.passive.VillagerEntity;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
 import net.numismaticclaim.access.VillagerAccess;
+import net.numismaticclaim.network.packet.BuyClaimPacket;
+import net.numismaticclaim.network.packet.CloseScreenPacket;
+import net.numismaticclaim.network.packet.SetOffererPacket;
+import net.numismaticclaim.network.packet.UpdateClaimPricePacket;
 
 public class NumismaticClaimClientPacket {
 
     public static void init() {
-        ClientPlayNetworking.registerGlobalReceiver(NumismaticClaimServerPacket.SET_OFFERER, (client, handler, buf, sender) -> {
-            int entityId = buf.readVarInt();
-            boolean isNumismaticClaimTrader = buf.readBoolean();
-            client.execute(() -> {
-                VillagerEntity villagerEntity = (VillagerEntity) client.world.getEntityById(entityId);
-                ((VillagerAccess) client.player).setCurrentOfferer(villagerEntity);
-                ((VillagerAccess) villagerEntity).setNumismaticClaimTrader(isNumismaticClaimTrader);
+        ClientPlayNetworking.registerGlobalReceiver(SetOffererPacket.PACKET_ID, (payload, context) -> {
+            int entityId = payload.entityId();
+            boolean isNumismaticClaimTrader = payload.isNumismaticClaimTrader();
+            context.client().execute(() -> {
+                if (context.player() != null && context.player().getWorld().getEntityById(entityId) instanceof VillagerEntity villagerEntity) {
+                    ((VillagerAccess) context.player()).setCurrentOfferer(villagerEntity);
+                    ((VillagerAccess) villagerEntity).setNumismaticClaimTrader(isNumismaticClaimTrader);
+                }
             });
         });
-        ClientPlayNetworking.registerGlobalReceiver(NumismaticClaimServerPacket.UPDATE_CLAIM_PRICE, (client, handler, buf, sender) -> {
-            long claimPrice = buf.readLong();
-            client.execute(() -> {
-                if (client.player != null)
-                    ((VillagerAccess) client.player).setClaimPrice(claimPrice);
+        ClientPlayNetworking.registerGlobalReceiver(UpdateClaimPricePacket.PACKET_ID, (payload, context) -> {
+            long claimPrice = payload.claimPrice();
+            context.client().execute(() -> {
+                if (context.player() != null) {
+                    ((VillagerAccess) context.player()).setClaimPrice(claimPrice);
+                }
             });
         });
     }
 
     public static void writeC2SBuyClaimPacket(MinecraftClient client) {
-        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        CustomPayloadC2SPacket packet = new CustomPayloadC2SPacket(NumismaticClaimServerPacket.BUY_CLAIM, buf);
-        client.getNetworkHandler().sendPacket(packet);
+        ClientPlayNetworking.send(new BuyClaimPacket());
     }
 
     public static void writeC2SCloseScreenPacket(MinecraftClient client, int entityId) {
-        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        buf.writeInt(entityId);
-        CustomPayloadC2SPacket packet = new CustomPayloadC2SPacket(NumismaticClaimServerPacket.CLOSE_SCREEN, buf);
-        client.getNetworkHandler().sendPacket(packet);
+        ClientPlayNetworking.send(new CloseScreenPacket(entityId));
     }
 
 }

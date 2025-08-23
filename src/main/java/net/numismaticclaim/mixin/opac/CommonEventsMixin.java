@@ -1,6 +1,7 @@
 package net.numismaticclaim.mixin.opac;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -22,12 +23,13 @@ import xaero.pac.common.server.api.OpenPACServerAPI;
 @Mixin(CommonEvents.class)
 public class CommonEventsMixin {
 
+    @Unique
     private final Text BLOCK_DISABLED = Text.translatable("gui.xaero_claims_protection_block_disabled").formatted(Formatting.RED);
 
     @Inject(method = "onDestroyBlock", at = @At(value = "RETURN", ordinal = 0), cancellable = true)
     private void onDestroyBlockMixin(WorldAccess world, BlockPos pos, PlayerEntity player, CallbackInfoReturnable<Boolean> info) {
         if (!info.getReturnValue() && ((ServerWorld) world).getRegistryKey() == World.OVERWORLD && !NumismaticClaimMain.CONFIG.overworldPlayerBlockDestroy
-                && OpenPACServerAPI.get(world.getServer()).getServerClaimsManager().get(((ServerWorld) world).getDimensionKey().getValue(), new ChunkPos(pos)) == null && !player.isCreative()) {
+                && OpenPACServerAPI.get(world.getServer()).getServerClaimsManager().get(((ServerWorld) world).getRegistryKey().getValue(), new ChunkPos(pos)) == null && !player.isCreative()) {
             player.sendMessage(ServerData.from(world.getServer()).getAdaptiveLocalizer().getFor((ServerPlayerEntity) player, BLOCK_DISABLED));
             info.setReturnValue(true);
         }

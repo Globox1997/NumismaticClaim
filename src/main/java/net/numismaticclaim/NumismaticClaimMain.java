@@ -13,6 +13,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -41,13 +42,21 @@ public class NumismaticClaimMain implements ModInitializer {
         });
     }
 
+    public static Identifier identifierOf(String name) {
+        return Identifier.of("numismaticclaim", name);
+    }
+
     private static int executeSummon(ServerCommandSource source, Vec3d pos) {
         World world = source.getWorld();
         VillagerEntity villagerEntity = new VillagerEntity(EntityType.VILLAGER, world);
         villagerEntity.refreshPositionAndAngles(BlockPos.ofFloored(pos), source.getPlayer().getYaw(), 0f);
-        NbtCompound nbtCompound = new NbtCompound();
-        nbtCompound.putBoolean("NumismaticClaimTrader", true);
-        villagerEntity.initialize(source.getWorld(), world.getLocalDifficulty(BlockPos.ofFloored(pos)), SpawnReason.COMMAND, null, nbtCompound);
+
+//        NbtCompound nbtCompound = new NbtCompound();
+//        nbtCompound.putBoolean("NumismaticClaimTrader", true);
+//        //TOdo: Requires testing
+//        villagerEntity.writeNbt();
+        villagerEntity.initialize(source.getWorld(), world.getLocalDifficulty(BlockPos.ofFloored(pos)), SpawnReason.COMMAND, null);
+
         ((VillagerAccess) villagerEntity).setNumismaticClaimTrader(true);
         world.spawnEntity(villagerEntity);
         source.sendFeedback(() -> Text.translatable("commands.summon.success", villagerEntity.getDisplayName()), true);

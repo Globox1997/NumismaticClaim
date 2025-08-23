@@ -14,9 +14,9 @@ import net.numismaticclaim.screen.widget.*;
 @Environment(EnvType.CLIENT)
 public class NumismaticClaimClient implements ClientModInitializer {
 
-    public static final Identifier CLAIM_GUI = new Identifier("numismaticclaim", "textures/gui/claim_gui.png");
-    public static final Identifier CLAIM_TAB_ICON = new Identifier("numismaticclaim", "textures/gui/claim_tab_icon.png");
-    public static final Identifier TRADE_TAB_ICON = new Identifier("numismaticclaim", "textures/gui/trade_tab_icon.png");
+    public static final Identifier CLAIM_GUI = NumismaticClaimMain.identifierOf("textures/gui/claim_gui.png");
+    public static final Identifier CLAIM_TAB_ICON = NumismaticClaimMain.identifierOf("textures/gui/claim_tab_icon.png");
+    public static final Identifier TRADE_TAB_ICON = NumismaticClaimMain.identifierOf("textures/gui/trade_tab_icon.png");
 
     @Override
     public void onInitializeClient() {

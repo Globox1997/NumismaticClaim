@@ -61,9 +61,9 @@ public abstract class ChunkProtectionMixin<CM extends IServerClaimsManager<?, ?,
 
     @Inject(method = "onBlockInteraction(Lxaero/pac/common/server/IServerData;Lnet/minecraft/block/BlockState;Lnet/minecraft/entity/Entity;Lnet/minecraft/util/Hand;Lnet/minecraft/item/ItemStack;Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;ZZ)Z", at = @At(value = "RETURN"), cancellable = true)
     private void onBlockInteractionMixin(IServerData<CM, P> serverData, BlockState blockState, Entity entity, Hand hand, ItemStack heldItem, ServerWorld world, BlockPos pos, Direction direction,
-            boolean breaking, boolean messages, CallbackInfoReturnable<Boolean> info) {
+                                         boolean breaking, boolean messages, CallbackInfoReturnable<Boolean> info) {
         if (!info.getReturnValue() && !breaking && entity instanceof PlayerEntity playerEntity && world.getRegistryKey() == World.OVERWORLD
-                && !NumismaticClaimMain.CONFIG.overworldPlayerSpecificItemUse && claimsManager.get(world.getDimensionKey().getValue(), new ChunkPos(pos)) == null && !playerEntity.isCreative()) {
+                && !NumismaticClaimMain.CONFIG.overworldPlayerSpecificItemUse && claimsManager.get(world.getRegistryKey().getValue(), new ChunkPos(pos)) == null && !playerEntity.isCreative()) {
             Item item = playerEntity.getStackInHand(hand).getItem();
             if (item instanceof BlockItem || item instanceof HoeItem || item instanceof AxeItem || item instanceof ShovelItem || item instanceof FlintAndSteelItem || item instanceof BoneMealItem) {
                 playerEntity.sendMessage(serverData.getAdaptiveLocalizer().getFor((ServerPlayerEntity) playerEntity, BLOCK_DISABLED));
@@ -75,7 +75,7 @@ public abstract class ChunkProtectionMixin<CM extends IServerClaimsManager<?, ?,
     @Inject(method = "onCropTrample", at = @At("TAIL"), cancellable = true)
     private void onCropTrampleMixin(IServerData<CM, P> serverData, Entity entity, BlockPos pos, CallbackInfoReturnable<Boolean> info) {
         if (!info.getReturnValue() && entity instanceof PlayerEntity playerEntity && entity.getWorld().getRegistryKey() == World.OVERWORLD && !NumismaticClaimMain.CONFIG.overworldCropTrample
-                && claimsManager.get(entity.getWorld().getDimensionKey().getValue(), new ChunkPos(pos)) == null && !playerEntity.isCreative())
+                && claimsManager.get(entity.getWorld().getRegistryKey().getValue(), new ChunkPos(pos)) == null && !playerEntity.isCreative())
             info.setReturnValue(true);
     }
 
@@ -88,7 +88,7 @@ public abstract class ChunkProtectionMixin<CM extends IServerClaimsManager<?, ?,
     @Inject(method = "onBucketUse", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILSOFT, cancellable = true)
     private void onBucketUseMixin(IServerData<CM, ?> serverData, Entity entity, ServerWorld world, HitResult hitResult, ItemStack itemStack, CallbackInfoReturnable<Boolean> info, BlockPos pos) {
         if (!info.getReturnValue() && entity instanceof PlayerEntity playerEntity && world.getRegistryKey() == World.OVERWORLD && !NumismaticClaimMain.CONFIG.overworldPlayerSpecificItemUse
-                && claimsManager.get(world.getDimensionKey().getValue(), new ChunkPos(pos)) == null && !playerEntity.isCreative()) {
+                && claimsManager.get(world.getRegistryKey().getValue(), new ChunkPos(pos)) == null && !playerEntity.isCreative()) {
             playerEntity.sendMessage(serverData.getAdaptiveLocalizer().getFor((ServerPlayerEntity) playerEntity, ITEM_DISABLED_MAIN));
             info.setReturnValue(true);
         }
@@ -97,14 +97,14 @@ public abstract class ChunkProtectionMixin<CM extends IServerClaimsManager<?, ?,
     @Inject(method = "Lxaero/pac/common/server/claims/protection/ChunkProtection;onMobGrief(Lxaero/pac/common/server/IServerData;Lnet/minecraft/entity/Entity;ZZZ)Z", at = @At("RETURN"), cancellable = true)
     private void onMobGriefMixin(IServerData<CM, P> serverData, Entity entity, boolean blocks, boolean entities, boolean items, CallbackInfoReturnable<Boolean> info) {
         if (!info.getReturnValue() && entity instanceof PlayerEntity && entity.getWorld().getRegistryKey() == World.OVERWORLD && !NumismaticClaimMain.CONFIG.overworldMobGrief
-                && claimsManager.get(entity.getWorld().getDimensionKey().getValue(), entity.getChunkPos()) == null)
+                && claimsManager.get(entity.getWorld().getRegistryKey().getValue(), entity.getChunkPos()) == null)
             info.setReturnValue(true);
     }
 
     @Inject(method = "onExplosionDetonate", at = @At("HEAD"), cancellable = true)
     private void onExplosionDetonateMixin(IServerData<CM, P> serverData, ServerWorld world, Explosion explosion, List<Entity> affectedEntities, List<BlockPos> affectedBlocks, CallbackInfo info) {
         if (!affectedBlocks.isEmpty() && world.getRegistryKey() == World.OVERWORLD && !NumismaticClaimMain.CONFIG.overworldExplosion
-                && claimsManager.get(world.getDimensionKey().getValue(), new ChunkPos(affectedBlocks.get(0))) == null)// explosion.getCausingEntity() != null &&
+                && claimsManager.get(world.getRegistryKey().getValue(), new ChunkPos(affectedBlocks.get(0))) == null)// explosion.getCausingEntity() != null &&
             affectedBlocks.clear();
     }
 

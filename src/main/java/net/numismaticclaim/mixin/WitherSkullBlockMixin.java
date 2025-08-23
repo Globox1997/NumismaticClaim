@@ -20,7 +20,7 @@ public class WitherSkullBlockMixin {
     @Inject(method = "Lnet/minecraft/block/WitherSkullBlock;onPlaced(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/entity/SkullBlockEntity;)V", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/block/WitherSkullBlock;getWitherBossPattern()Lnet/minecraft/block/pattern/BlockPattern;"), cancellable = true)
     private static void onPlacedMixin(World world, BlockPos pos, SkullBlockEntity blockEntity, CallbackInfo info) {
         if (blockEntity.getWorld().getRegistryKey() == World.OVERWORLD && !NumismaticClaimMain.CONFIG.overworldWitherSpawn
-                && OpenPACServerAPI.get(world.getServer()).getServerClaimsManager().get(((ServerWorld) blockEntity.getWorld()).getDimensionKey().getValue(), new ChunkPos(pos)) == null)
+                && OpenPACServerAPI.get(world.getServer()).getServerClaimsManager().get(((ServerWorld) blockEntity.getWorld()).getRegistryKey().getValue(), new ChunkPos(pos)) == null)
             info.cancel();
     }
 }
